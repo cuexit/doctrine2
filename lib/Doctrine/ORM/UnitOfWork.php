@@ -541,7 +541,7 @@ class UnitOfWork implements PropertyChangedListener
 
         $actualData = [];
 
-        foreach ($class->getDeclaredPropertiesIterator() as $name => $property) {
+        foreach ($class->getPropertiesIterator() as $name => $property) {
             $value = $property->getValue($entity);
 
             if ($property instanceof ToManyAssociationMetadata && $value !== null) {
@@ -676,7 +676,7 @@ class UnitOfWork implements PropertyChangedListener
         }
 
         // Look for changes in associations of the entity
-        foreach ($class->getDeclaredPropertiesIterator() as $property) {
+        foreach ($class->getPropertiesIterator() as $property) {
             if (! $property instanceof AssociationMetadata) {
                 continue;
             }
@@ -893,7 +893,7 @@ class UnitOfWork implements PropertyChangedListener
 
         $actualData = [];
 
-        foreach ($class->getDeclaredPropertiesIterator() as $name => $property) {
+        foreach ($class->getPropertiesIterator() as $name => $property) {
             switch (true) {
                 case $property instanceof VersionFieldMetadata:
                     // Ignore version field
@@ -1091,7 +1091,7 @@ class UnitOfWork implements PropertyChangedListener
 
         // Calculate dependencies for new nodes
         while ($class = array_pop($newNodes)) {
-            foreach ($class->getDeclaredPropertiesIterator() as $property) {
+            foreach ($class->getPropertiesIterator() as $property) {
                 if (! ($property instanceof ToOneAssociationMetadata && $property->isOwningSide())) {
                     continue;
                 }
@@ -1749,7 +1749,7 @@ class UnitOfWork implements PropertyChangedListener
     {
         $class = $this->em->getClassMetadata(get_class($entity));
 
-        foreach ($class->getDeclaredPropertiesIterator() as $association) {
+        foreach ($class->getPropertiesIterator() as $association) {
             if (! ($association instanceof AssociationMetadata && in_array('refresh', $association->getCascade(), true))) {
                 continue;
             }
@@ -1796,7 +1796,7 @@ class UnitOfWork implements PropertyChangedListener
             return;
         }
 
-        foreach ($class->getDeclaredPropertiesIterator() as $association) {
+        foreach ($class->getPropertiesIterator() as $association) {
             if (! ($association instanceof AssociationMetadata && in_array('persist', $association->getCascade(), true))) {
                 continue;
             }
@@ -1856,7 +1856,7 @@ class UnitOfWork implements PropertyChangedListener
         $entitiesToCascade = [];
         $class             = $this->em->getClassMetadata(get_class($entity));
 
-        foreach ($class->getDeclaredPropertiesIterator() as $association) {
+        foreach ($class->getPropertiesIterator() as $association) {
             if (! ($association instanceof AssociationMetadata && in_array('remove', $association->getCascade(), true))) {
                 continue;
             }
@@ -2139,7 +2139,7 @@ class UnitOfWork implements PropertyChangedListener
             return $entity;
         }
 
-        foreach ($class->getDeclaredPropertiesIterator() as $field => $association) {
+        foreach ($class->getPropertiesIterator() as $field => $association) {
             if (! ($association instanceof AssociationMetadata)) {
                 continue;
             }
